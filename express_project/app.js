@@ -22,7 +22,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-app.use('/api',function(req, res, next){
+// 1、jsonp 
+app.use('/api/jsonp',function(req, res, next){
   let fn = req.query.cb;
   let data = {
     name:req.query.name,
@@ -30,6 +31,17 @@ app.use('/api',function(req, res, next){
   }
   res.type('text/javascript');
   res.send(fn+'('+ JSON.stringify(data) +')');
+})
+
+
+// 2、iframe + form
+app.use('/api/iframePost',function(req, res, next){
+   console.log(req.body);
+   let data = {
+    name:req.body.name,
+    age:15
+  }
+   res.send(JSON.stringify(data));
 })
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
