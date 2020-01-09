@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>vue_project</title>
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but vue_project doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+    <script type='text/javascript'>
+      window.jsonpCb = function(res){
+        alert(JSON.stringify(res));
+      }
+
+      let request = ({url,data}) => {
+        Object.keys(data).forEach((key,index)=>{
+          console.log(url,data);
+          url += index === 0 ?'?':'&';
+          url += key + '=' + data[key];
+        })
+        let script = document.createElement('script');
+        script.src = url;
+        document.body.appendChild(script);
+      }
+      request({
+        url:'http://localhost:3000/api/jsonp',
+        data:{
+          cb:'jsonpCb',
+          name:'tom'
+        }
+      })
+    </script>
+    <!-- <script src='http://localhost:3000/api/jsonp?name=tom&cb=jsonpCb' type='text/javascript'></script> -->
+
+  </body>
+</html>
